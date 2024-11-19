@@ -21,3 +21,7 @@ Welcome to the Portfolio Website of Gael Alejandro Fonseca, showcasing expertise
 - **Font Awesome:** Icons for enhancing the visual appeal.
 - **jQuery:** Simplifying JavaScript operations.
 - **Custom Styles:** Tailored CSS for unique design elements.
+
+## To Do
+- **Showcase of one Project**
+- **Connect Google Analytics**
