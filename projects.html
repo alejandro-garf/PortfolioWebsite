@@ -52,6 +52,31 @@
             transform: translateY(-3px);
             border-color: rgba(191, 90, 242, 0.5);
         }
+        .project-links {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        .project-links a {
+            color: #bf5af2;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.2s ease;
+        }
+        .project-links a:hover {
+            opacity: 0.7;
+        }
+        .project-links a.in-progress {
+            color: rgba(191, 90, 242, 0.5);
+            cursor: default;
+            font-style: italic;
+        }
+        .project-links a.in-progress:hover {
+            opacity: 1;
+        }
+        .project-links i {
+            margin-right: 5px;
+        }
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
@@ -113,32 +138,35 @@
             <h2 class="terminal-line" id="title"><span class="terminal-text" data-text="Projects"></span></h2>
 
             <div class="project-card" id="project1">
-                <h3 class="terminal-line" id="p1-title"><span class="terminal-text" data-text="Project 1"></span></h3>
-                <p class="terminal-line" id="p1-desc"><span class="terminal-text" data-text="Description of your project goes here. Explain the technologies used, your role, and the impact."></span></p>
+                <h3 class="terminal-line" id="p1-title"><span class="terminal-text" data-text="MyNetRunner"></span></h3>
+                <p class="terminal-line" id="p1-desc"><span class="terminal-text" data-text="A privacy-focused messaging platform with end-to-end encryption and zero-knowledge architecture. Messages are encrypted client-side using X3DH key exchange and AES-256-GCM encryption, with the server acting solely as a relay. Features ephemeral messaging, WebSocket real-time communication, and Signal-inspired security model."></span></p>
+                <div class="project-links">
+                    <a href="https://www.mynetrunner.com/#home" target="_blank"><i class="fas fa-globe"></i> Live Site</a>
+                    <a href="https://github.com/alejandro-garf/MyNetRunner" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                </div>
                 <div class="tech-stack">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">AWS</span>
-                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">WebSocket</span>
+                    <span class="tech-tag">Web Crypto API</span>
                 </div>
             </div>
 
             <div class="project-card" id="project2">
-                <h3 class="terminal-line" id="p2-title"><span class="terminal-text" data-text="Project 2"></span></h3>
-                <p class="terminal-line" id="p2-desc"><span class="terminal-text" data-text="Description of your project goes here. Explain the technologies used, your role, and the impact."></span></p>
-                <div class="tech-stack">
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">React</span>
-                    <span class="tech-tag">Node.js</span>
+                <h3 class="terminal-line" id="p2-title"><span class="terminal-text" data-text="Enterprise Penetration Test"></span></h3>
+                <p class="terminal-line" id="p2-desc"><span class="terminal-text" data-text="Led full penetration testing engagement from stakeholder scoping interviews through final presentation, assessing a cloud-hosted credential management platform. Identified 6 vulnerabilities across authentication and session management. Delivered findings report with CVSS severity ratings and remediation recommendations, translating technical risks into business impact for executive stakeholders."></span></p>
+                <div class="project-links">
+                    <a href="#" class="in-progress"><i class="fas fa-file-alt"></i> Documentation (In Progress)</a>
+                    <a href="#" class="in-progress"><i class="fas fa-presentation"></i> Slides (In Progress)</a>
                 </div>
-            </div>
-
-            <div class="project-card" id="project3">
-                <h3 class="terminal-line" id="p3-title"><span class="terminal-text" data-text="Project 3"></span></h3>
-                <p class="terminal-line" id="p3-desc"><span class="terminal-text" data-text="Description of your project goes here. Explain the technologies used, your role, and the impact."></span></p>
                 <div class="tech-stack">
-                    <span class="tech-tag">C++</span>
-                    <span class="tech-tag">Linux</span>
-                    <span class="tech-tag">Networking</span>
+                    <span class="tech-tag">OWASP WSTG</span>
+                    <span class="tech-tag">Kali Linux</span>
+                    <span class="tech-tag">BurpSuite</span>
+                    <span class="tech-tag">CVSS</span>
                 </div>
             </div>
         </div>
@@ -154,8 +182,7 @@
             const bg = document.getElementById('bg');
             const cards = [
                 document.getElementById('project1'),
-                document.getElementById('project2'),
-                document.getElementById('project3')
+                document.getElementById('project2')
             ];
             const elements = [
                 document.getElementById('back-link'),
@@ -163,9 +190,7 @@
                 document.getElementById('p1-title'),
                 document.getElementById('p1-desc'),
                 document.getElementById('p2-title'),
-                document.getElementById('p2-desc'),
-                document.getElementById('p3-title'),
-                document.getElementById('p3-desc')
+                document.getElementById('p2-desc')
             ];
 
             function typeText(element, callback, speed = 10) {
@@ -192,7 +217,6 @@
                     // Show card when starting its title
                     if (index === 2) cards[0].classList.add('visible');
                     if (index === 4) cards[1].classList.add('visible');
-                    if (index === 6) cards[2].classList.add('visible');
 
                     typeText(items[index], function() {
                         setTimeout(function() {
