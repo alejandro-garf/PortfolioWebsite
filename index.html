@@ -351,6 +351,36 @@
 					const inputLine = document.getElementById('input-line');
 					const bg = document.getElementById('bg');
 
+					// Check if animation has already been shown this session
+					const hasSeenAnimation = sessionStorage.getItem('terminalAnimationShown');
+
+					function showInstantly() {
+						// Show all elements immediately without animation
+						const terminalTexts = document.querySelectorAll('.terminal-text');
+						terminalTexts.forEach(function(textSpan) {
+							const text = textSpan.getAttribute('data-text');
+							textSpan.textContent = text;
+							textSpan.classList.add('done');
+							textSpan.parentElement.classList.add('visible');
+						});
+
+						// Show menu items instantly
+						menuItems.forEach(function(item) {
+							const menuTyped = item.querySelector('.menu-typed');
+							const fullText = item.getAttribute('data-text');
+							menuTyped.textContent = fullText;
+							menuTyped.classList.add('done');
+							item.classList.add('visible');
+						});
+
+						// Show all other elements
+						terminalMenu.classList.add('visible');
+						menuTitle.classList.add('visible');
+						inputLine.classList.add('visible');
+						bg.classList.add('visible');
+						keyboardEnabled = true;
+					}
+
 					function typeText(element, callback, speed = 25) {
 						const textSpan = element.querySelector('.terminal-text');
 						const text = textSpan.getAttribute('data-text');
@@ -460,40 +490,48 @@
 						}
 					});
 
-					// Start the typing sequence
-					setTimeout(function() {
-						// Type "whoami" command
-						typeText(terminalName, function() {
-							setTimeout(function() {
-								// Show name output
-								typeText(terminalNameOutput, function() {
-									setTimeout(function() {
-										// Show description
-										typeText(terminalDesc, function() {
-											setTimeout(function() {
-												// Show menu
-												terminalMenu.classList.add('visible');
-												menuTitle.classList.add('visible');
+					// If returning from another page, show instantly; otherwise run animation
+					if (hasSeenAnimation) {
+						showInstantly();
+					} else {
+						// Mark animation as shown for this session
+						sessionStorage.setItem('terminalAnimationShown', 'true');
+
+						// Start the typing sequence
+						setTimeout(function() {
+							// Type "whoami" command
+							typeText(terminalName, function() {
+								setTimeout(function() {
+									// Show name output
+									typeText(terminalNameOutput, function() {
+										setTimeout(function() {
+											// Show description
+											typeText(terminalDesc, function() {
 												setTimeout(function() {
-													typeMenuSequence(menuItems, 0, function() {
-														// Show input line with cursor
-														setTimeout(function() {
-															inputLine.classList.add('visible');
-															keyboardEnabled = true;
-															// Fade in background
+													// Show menu
+													terminalMenu.classList.add('visible');
+													menuTitle.classList.add('visible');
+													setTimeout(function() {
+														typeMenuSequence(menuItems, 0, function() {
+															// Show input line with cursor
 															setTimeout(function() {
-																bg.classList.add('visible');
-															}, 300);
-														}, 100);
-													});
+																inputLine.classList.add('visible');
+																keyboardEnabled = true;
+																// Fade in background
+																setTimeout(function() {
+																	bg.classList.add('visible');
+																}, 300);
+															}, 100);
+														});
+													}, 150);
 												}, 150);
-											}, 150);
-										}, 20);
-									}, 100);
-								}, 15);
-							}, 150);
-						}, 40);
-					}, 300);
+											}, 20);
+										}, 100);
+									}, 15);
+								}, 150);
+							}, 40);
+						}, 300);
+					}
 				});
 			</script>
 
