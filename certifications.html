@@ -66,6 +66,21 @@
             display: inline-block;
             margin-top: 15px;
         }
+        .cert-links {
+            margin: 15px 0;
+        }
+        .cert-links a {
+            color: #bf5af2;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.2s ease;
+        }
+        .cert-links a:hover {
+            opacity: 0.7;
+        }
+        .cert-links i {
+            margin-right: 5px;
+        }
         .back-link {
             display: inline-block;
             margin-bottom: 30px;
@@ -114,24 +129,43 @@
             <h2 class="terminal-line" id="title"><span class="terminal-text" data-text="Certifications"></span></h2>
 
             <div class="cert-card" id="cert1">
-                <h3 class="terminal-line" id="c1-title"><span class="terminal-text" data-text="Certification 1"></span></h3>
-                <p class="cert-issuer terminal-line" id="c1-issuer"><span class="terminal-text" data-text="Issuing Organization"></span></p>
-                <p class="terminal-line" id="c1-desc"><span class="terminal-text" data-text="Brief description of what this certification covers and the skills it validates."></span></p>
-                <span class="cert-date">Issued: Month Year</span>
+                <h3 class="terminal-line" id="c1-title"><span class="terminal-text" data-text="CompTIA CySA+"></span></h3>
+                <p class="cert-issuer terminal-line" id="c1-issuer"><span class="terminal-text" data-text="CompTIA"></span></p>
+                <p class="terminal-line" id="c1-desc"><span class="terminal-text" data-text="Cybersecurity Analyst certification validating skills in threat detection, analysis, and response using behavioral analytics and security monitoring tools."></span></p>
+                <div class="cert-links">
+                    <a href="images/Certifications/CySA+.png" target="_blank"><i class="fas fa-certificate"></i> View Credential</a>
+                </div>
+                <span class="cert-date">Issued: December 2025</span>
             </div>
 
             <div class="cert-card" id="cert2">
-                <h3 class="terminal-line" id="c2-title"><span class="terminal-text" data-text="Certification 2"></span></h3>
-                <p class="cert-issuer terminal-line" id="c2-issuer"><span class="terminal-text" data-text="Issuing Organization"></span></p>
-                <p class="terminal-line" id="c2-desc"><span class="terminal-text" data-text="Brief description of what this certification covers and the skills it validates."></span></p>
-                <span class="cert-date">Issued: Month Year</span>
+                <h3 class="terminal-line" id="c2-title"><span class="terminal-text" data-text="CompTIA Security+"></span></h3>
+                <p class="cert-issuer terminal-line" id="c2-issuer"><span class="terminal-text" data-text="CompTIA"></span></p>
+                <p class="terminal-line" id="c2-desc"><span class="terminal-text" data-text="Security certification covering core cybersecurity skills including network security, threat management, cryptography, and identity management."></span></p>
+                <div class="cert-links">
+                    <a href="images/Certifications/Security+.pdf" target="_blank"><i class="fas fa-certificate"></i> View Credential</a>
+                </div>
+                <span class="cert-date">Issued: July 2025</span>
             </div>
 
             <div class="cert-card" id="cert3">
-                <h3 class="terminal-line" id="c3-title"><span class="terminal-text" data-text="Certification 3"></span></h3>
-                <p class="cert-issuer terminal-line" id="c3-issuer"><span class="terminal-text" data-text="Issuing Organization"></span></p>
-                <p class="terminal-line" id="c3-desc"><span class="terminal-text" data-text="Brief description of what this certification covers and the skills it validates."></span></p>
-                <span class="cert-date">Issued: Month Year</span>
+                <h3 class="terminal-line" id="c3-title"><span class="terminal-text" data-text="CompTIA Network+"></span></h3>
+                <p class="cert-issuer terminal-line" id="c3-issuer"><span class="terminal-text" data-text="CompTIA"></span></p>
+                <p class="terminal-line" id="c3-desc"><span class="terminal-text" data-text="Networking certification demonstrating skills in designing, configuring, managing, and troubleshooting wired and wireless network devices."></span></p>
+                <div class="cert-links">
+                    <a href="images/Certifications/Network+.png" target="_blank"><i class="fas fa-certificate"></i> View Credential</a>
+                </div>
+                <span class="cert-date">Issued: September 2025</span>
+            </div>
+
+            <div class="cert-card" id="cert4">
+                <h3 class="terminal-line" id="c4-title"><span class="terminal-text" data-text="Oracle Cloud Infrastructure 2025 Generative AI Professional"></span></h3>
+                <p class="cert-issuer terminal-line" id="c4-issuer"><span class="terminal-text" data-text="Oracle"></span></p>
+                <p class="terminal-line" id="c4-desc"><span class="terminal-text" data-text="Cloud certification validating expertise in OCI Generative AI services, large language models, and AI-powered application development."></span></p>
+                <div class="cert-links">
+                    <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=7F65E4E3BDE0C79C3A1DE2156278D8C151886A80D017856CF143637B4B7F1473" target="_blank"><i class="fas fa-certificate"></i> View Credential</a>
+                </div>
+                <span class="cert-date">Issued: October 2025</span>
             </div>
         </div>
     </div>
@@ -147,7 +181,8 @@
             const cards = [
                 document.getElementById('cert1'),
                 document.getElementById('cert2'),
-                document.getElementById('cert3')
+                document.getElementById('cert3'),
+                document.getElementById('cert4')
             ];
             const elements = [
                 document.getElementById('back-link'),
@@ -160,7 +195,10 @@
                 document.getElementById('c2-desc'),
                 document.getElementById('c3-title'),
                 document.getElementById('c3-issuer'),
-                document.getElementById('c3-desc')
+                document.getElementById('c3-desc'),
+                document.getElementById('c4-title'),
+                document.getElementById('c4-issuer'),
+                document.getElementById('c4-desc')
             ];
 
             function typeText(element, callback, speed = 10) {
@@ -188,6 +226,7 @@
                     if (index === 2) cards[0].classList.add('visible');
                     if (index === 5) cards[1].classList.add('visible');
                     if (index === 8) cards[2].classList.add('visible');
+                    if (index === 11) cards[3].classList.add('visible');
 
                     typeText(items[index], function() {
                         setTimeout(function() {
