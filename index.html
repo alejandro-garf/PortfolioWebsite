@@ -18,44 +18,248 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     <style>
-        .logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            margin: 0 auto;
-        }
-        .logo img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            filter: invert(1);
-            opacity: 0.5;
-        }
         .image.main img {
             width: 100%;
             height: auto;
         }
+
+        /* Terminal window styles */
+        .terminal-window {
+            background: rgba(30, 30, 30, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 4200px;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .terminal-window:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 30px 100px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .terminal-header {
+            background: rgba(60, 60, 60, 0.5);
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .terminal-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .terminal-btn:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+        .terminal-btn.close { background: #ff5f57; }
+        .terminal-btn.minimize { background: #febc2e; }
+        .terminal-btn.maximize { background: #28c840; }
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+            font-weight: 500;
+            margin-right: 58px;
+            letter-spacing: 0.02em;
+        }
+        .terminal-body {
+            padding: 50px 70px;
+            min-height: 400px;
+        }
+
+        /* Terminal text styles */
+        .terminal-line {
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 15px 0;
+            opacity: 0;
+            font-size: 22px;
+            line-height: 1.8;
+            transition: opacity 0.4s ease;
+        }
+        .terminal-line.visible {
+            opacity: 1;
+        }
+        .terminal-line.name-line {
+            font-size: 24px;
+            font-weight: 600;
+            color: #bf5af2;
+            margin-bottom: 10px;
+        }
+        .terminal-line.desc-line {
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 40px;
+        }
+        .terminal-prefix {
+            color: #bf5af2;
+        }
+        .terminal-text::after {
+            content: '█';
+            animation: blink 1s ease-in-out infinite;
+            color: #bf5af2;
+        }
+        .terminal-text.done::after {
+            content: '';
+            animation: none;
+        }
+        @keyframes blink {
+            0%, 40% { opacity: 1; }
+            50%, 90% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Terminal menu styles */
+        .terminal-menu {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .terminal-menu.visible {
+            opacity: 1;
+        }
+        .terminal-menu-title {
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 16px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .terminal-menu-title.visible {
+            opacity: 1;
+        }
+        .menu-item {
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 18px 0;
+            opacity: 0;
+            font-size: 22px;
+            transition: opacity 0.4s ease, background 0.25s ease, transform 0.2s ease;
+            border-radius: 8px;
+            padding: 8px 15px;
+            margin-left: -15px;
+        }
+        .menu-item.selected {
+            background: rgba(191, 90, 242, 0.2);
+            transform: translateX(5px);
+        }
+        .menu-item.selected a {
+            color: #bf5af2;
+        }
+        .menu-item.visible {
+            opacity: 1;
+        }
+        .menu-item a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            border: none;
+            display: inline-block;
+            transition: color 0.25s ease;
+        }
+        .menu-item a:hover {
+            color: #bf5af2;
+        }
+        .menu-typed {
+            display: inline;
+        }
+        .menu-typed::after {
+            content: '█';
+            animation: blink 1s ease-in-out infinite;
+            color: #bf5af2;
+        }
+        .menu-typed.done::after {
+            content: '';
+            animation: none;
+        }
+
+        /* Input line */
+        .input-line {
+            margin-top: 35px;
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 22px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .input-line.visible {
+            opacity: 1;
+        }
+        .input-text {
+            color: #bf5af2;
+        }
+        .input-cursor {
+            display: inline-block;
+            width: 12px;
+            height: 24px;
+            background: #bf5af2;
+            animation: cursorBlink 1s ease-in-out infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+            border-radius: 2px;
+        }
+        @keyframes cursorBlink {
+            0%, 40% { opacity: 1; }
+            50%, 90% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Background loading */
+        #bg {
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        #bg.visible {
+            opacity: 1;
+        }
+
+        /* Override default header styles */
+        #header {
+            padding: 2em;
+        }
+        #header .content {
+            max-width: none;
+            border: none !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            border-width: 0 !important;
+        }
+        #header .content .inner {
+            border: none !important;
+            padding: 0 !important;
+        }
+        #header nav {
+            display: none;
+        }
+
         @media (max-width: 768px) {
-            .logo {
-                width: 50px;
-                height: 50px;
+            .terminal-window {
+                margin: 0 15px;
+                max-width: none;
             }
-            .logo img {
-                width: 100%;
-                height: 100%;
+            .terminal-line.name-line {
+                font-size: 16px;
             }
-            .content h1 {
-                font-size: 24px;
-            }
-            .content p {
-                font-size: 14px;
-            }
-            nav ul {
-                flex-direction: column;
-                align-items: center;
+            .terminal-body {
+                padding: 15px;
             }
         }
     </style>
@@ -73,23 +277,39 @@
 <body class="is-preload">
     <div id="wrapper">
         <header id="header">
-            <div class="logo">
-                <img src="images/user-secret-solid.svg" alt="Custom Icon">
-            </div>
 						<div class="content">
-							<div class="inner">
-								<h1>Gael Alejandro Fonseca</h1>
-								<p>       Computer Science & Cybersecurity @CSUF</p>
+							<div class="terminal-window">
+								<div class="terminal-header">
+									<div class="terminal-btn close"></div>
+									<div class="terminal-btn minimize"></div>
+									<div class="terminal-btn maximize"></div>
+									<div class="terminal-title">gael@portfolio:~</div>
+								</div>
+								<div class="terminal-body">
+									<div class="terminal-line name-line" id="terminal-name"><span class="terminal-prefix">$ </span><span class="terminal-text" data-text="whoami"></span></div>
+									<div class="terminal-line" id="terminal-name-output"><span class="terminal-text" data-text="Gael Alejandro Fonseca"></span></div>
+									<div class="terminal-line desc-line" id="terminal-desc"><span class="terminal-text" data-text="Cybersecurity Analyst & Backend Engineer"></span></div>
+
+									<div class="terminal-menu" id="terminal-menu">
+										<div class="terminal-menu-title" id="menu-title">Select an option:</div>
+										<div class="menu-item" data-text="[1] About" data-href="#intro"><a href="#intro"><span class="menu-typed"></span></a></div>
+										<div class="menu-item" data-text="[2] LinkedIn" data-href="https://www.linkedin.com/in/gael-alejandro-fonseca/"><a href="https://www.linkedin.com/in/gael-alejandro-fonseca/" target="_blank"><span class="menu-typed"></span></a></div>
+										<div class="menu-item" data-text="[3] Github" data-href="https://github.com/alejandro-garf"><a href="https://github.com/alejandro-garf" target="_blank"><span class="menu-typed"></span></a></div>
+										<div class="menu-item" data-text="[4] Resume" data-href="#contact"><a href="#contact"><span class="menu-typed"></span></a></div>
+									</div>
+
+									<div class="input-line" id="input-line">
+										<span class="terminal-prefix">$ </span><span class="input-text" id="input-text"></span><span class="input-cursor"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<nav>
 							<ul>
 								<li><a href="#intro">About</a></li>
-								<!--link leads to personal LinkedIn-->
 								<li><a href="https://www.linkedin.com/in/gael-alejandro-fonseca/" target="_blank">LinkedIn</a></li>
 								<li><a href="https://github.com/alejandro-garf" target="_blank">Github</a></li>
 								<li><a href="#contact">Resume</a></li>
-								<!--<li><a href="#elements">Elements</a></li>-->
 							</ul>
 						</nav>
 					</header>
@@ -200,6 +420,164 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+			<!-- Terminal typing effect -->
+			<script>
+				document.addEventListener('DOMContentLoaded', function() {
+					const terminalName = document.getElementById('terminal-name');
+					const terminalNameOutput = document.getElementById('terminal-name-output');
+					const terminalDesc = document.getElementById('terminal-desc');
+					const terminalMenu = document.getElementById('terminal-menu');
+					const menuTitle = document.getElementById('menu-title');
+					const menuItems = document.querySelectorAll('.menu-item');
+					const inputLine = document.getElementById('input-line');
+					const bg = document.getElementById('bg');
+
+					function typeText(element, callback, speed = 25) {
+						const textSpan = element.querySelector('.terminal-text');
+						const text = textSpan.getAttribute('data-text');
+						let index = 0;
+
+						element.classList.add('visible');
+
+						function type() {
+							if (index < text.length) {
+								textSpan.textContent += text.charAt(index);
+								index++;
+								setTimeout(type, speed);
+							} else {
+								textSpan.classList.add('done');
+								if (callback) callback();
+							}
+						}
+						type();
+					}
+
+					function typeMenuItem(item, callback) {
+						const menuTyped = item.querySelector('.menu-typed');
+						const fullText = item.getAttribute('data-text');
+						let index = 0;
+
+						item.classList.add('visible');
+
+						function type() {
+							if (index < fullText.length) {
+								menuTyped.textContent += fullText.charAt(index);
+								index++;
+								setTimeout(type, 25);
+							} else {
+								menuTyped.classList.add('done');
+								if (callback) callback();
+							}
+						}
+						type();
+					}
+
+					function typeMenuSequence(items, index, callback) {
+						if (index < items.length) {
+							typeMenuItem(items[index], function() {
+								setTimeout(function() {
+									typeMenuSequence(items, index + 1, callback);
+								}, 50);
+							});
+						} else if (callback) {
+							callback();
+						}
+					}
+
+					// Keyboard navigation
+					let selectedIndex = -1;
+					let keyboardEnabled = false;
+					const inputText = document.getElementById('input-text');
+
+					function updateSelection(newIndex) {
+						menuItems.forEach((item, i) => {
+							item.classList.remove('selected');
+							if (i === newIndex) {
+								item.classList.add('selected');
+							}
+						});
+						selectedIndex = newIndex;
+					}
+
+					function navigateToSelected() {
+						if (selectedIndex >= 0 && selectedIndex < menuItems.length) {
+							const link = menuItems[selectedIndex].querySelector('a');
+							if (link) {
+								link.click();
+							}
+						}
+					}
+
+					document.addEventListener('keydown', function(e) {
+						if (!keyboardEnabled) return;
+
+						// Number keys 1-4
+						if (e.key >= '1' && e.key <= '4') {
+							const index = parseInt(e.key) - 1;
+							if (index < menuItems.length) {
+								inputText.textContent = e.key;
+								updateSelection(index);
+								setTimeout(navigateToSelected, 150);
+							}
+						}
+
+						// Arrow keys
+						if (e.key === 'ArrowDown' || e.key === 'j') {
+							e.preventDefault();
+							const newIndex = selectedIndex < menuItems.length - 1 ? selectedIndex + 1 : 0;
+							updateSelection(newIndex);
+							inputText.textContent = (newIndex + 1).toString();
+						}
+						if (e.key === 'ArrowUp' || e.key === 'k') {
+							e.preventDefault();
+							const newIndex = selectedIndex > 0 ? selectedIndex - 1 : menuItems.length - 1;
+							updateSelection(newIndex);
+							inputText.textContent = (newIndex + 1).toString();
+						}
+
+						// Enter key
+						if (e.key === 'Enter' && selectedIndex >= 0) {
+							navigateToSelected();
+						}
+					});
+
+					// Start the typing sequence
+					setTimeout(function() {
+						// Type "whoami" command
+						typeText(terminalName, function() {
+							setTimeout(function() {
+								// Show name output
+								typeText(terminalNameOutput, function() {
+									setTimeout(function() {
+										// Show description
+										typeText(terminalDesc, function() {
+											setTimeout(function() {
+												// Show menu
+												terminalMenu.classList.add('visible');
+												menuTitle.classList.add('visible');
+												setTimeout(function() {
+													typeMenuSequence(menuItems, 0, function() {
+														// Show input line with cursor
+														setTimeout(function() {
+															inputLine.classList.add('visible');
+															keyboardEnabled = true;
+															// Fade in background
+															setTimeout(function() {
+																bg.classList.add('visible');
+															}, 300);
+														}, 100);
+													});
+												}, 150);
+											}, 150);
+										}, 20);
+									}, 100);
+								}, 15);
+							}, 150);
+						}, 40);
+					}, 300);
+				});
+			</script>
 
 	</body>
 </html>
