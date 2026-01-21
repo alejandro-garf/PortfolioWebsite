@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Certifications - Gael Alejandro Fonseca</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <style>
+        .page-content {
+            background: rgba(30, 30, 30, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 50px;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+        }
+        .page-content h2 {
+            color: #bf5af2;
+            border-bottom: 1px solid #bf5af2;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .page-content h3 {
+            color: #bf5af2;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .page-content p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .cert-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(191, 90, 242, 0.2);
+            transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.4s ease;
+            opacity: 0;
+        }
+        .cert-card.visible {
+            opacity: 1;
+        }
+        .cert-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(191, 90, 242, 0.5);
+        }
+        .cert-issuer {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .cert-date {
+            color: #bf5af2;
+            font-size: 12px;
+            background: rgba(191, 90, 242, 0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #bf5af2;
+            text-decoration: none;
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+            transition: opacity 0.2s ease;
+        }
+        .back-link:hover {
+            opacity: 0.7;
+        }
+        #bg {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #bg.visible {
+            opacity: 1;
+        }
+        .terminal-line {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .terminal-line.visible {
+            opacity: 1;
+        }
+        .terminal-text::after {
+            content: '█';
+            animation: blink 1s ease-in-out infinite;
+            color: #bf5af2;
+        }
+        .terminal-text.done::after {
+            content: '';
+            animation: none;
+        }
+        @keyframes blink {
+            0%, 40% { opacity: 1; }
+            50%, 90% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="is-preload">
+    <div id="wrapper">
+        <div class="page-content">
+            <a href="index.html" class="back-link terminal-line" id="back-link">&larr; <span class="terminal-text" data-text="Back to Terminal"></span></a>
+            <h2 class="terminal-line" id="title"><span class="terminal-text" data-text="Certifications"></span></h2>
+
+            <div class="cert-card" id="cert1">
+                <h3 class="terminal-line" id="c1-title"><span class="terminal-text" data-text="Certification 1"></span></h3>
+                <p class="cert-issuer terminal-line" id="c1-issuer"><span class="terminal-text" data-text="Issuing Organization"></span></p>
+                <p class="terminal-line" id="c1-desc"><span class="terminal-text" data-text="Brief description of what this certification covers and the skills it validates."></span></p>
+                <span class="cert-date">Issued: Month Year</span>
+            </div>
+
+            <div class="cert-card" id="cert2">
+                <h3 class="terminal-line" id="c2-title"><span class="terminal-text" data-text="Certification 2"></span></h3>
+                <p class="cert-issuer terminal-line" id="c2-issuer"><span class="terminal-text" data-text="Issuing Organization"></span></p>
+                <p class="terminal-line" id="c2-desc"><span class="terminal-text" data-text="Brief description of what this certification covers and the skills it validates."></span></p>
+                <span class="cert-date">Issued: Month Year</span>
+            </div>
+
+            <div class="cert-card" id="cert3">
+                <h3 class="terminal-line" id="c3-title"><span class="terminal-text" data-text="Certification 3"></span></h3>
+                <p class="cert-issuer terminal-line" id="c3-issuer"><span class="terminal-text" data-text="Issuing Organization"></span></p>
+                <p class="terminal-line" id="c3-desc"><span class="terminal-text" data-text="Brief description of what this certification covers and the skills it validates."></span></p>
+                <span class="cert-date">Issued: Month Year</span>
+            </div>
+        </div>
+    </div>
+    <div id="bg"></div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bg = document.getElementById('bg');
+            const cards = [
+                document.getElementById('cert1'),
+                document.getElementById('cert2'),
+                document.getElementById('cert3')
+            ];
+            const elements = [
+                document.getElementById('back-link'),
+                document.getElementById('title'),
+                document.getElementById('c1-title'),
+                document.getElementById('c1-issuer'),
+                document.getElementById('c1-desc'),
+                document.getElementById('c2-title'),
+                document.getElementById('c2-issuer'),
+                document.getElementById('c2-desc'),
+                document.getElementById('c3-title'),
+                document.getElementById('c3-issuer'),
+                document.getElementById('c3-desc')
+            ];
+
+            function typeText(element, callback, speed = 10) {
+                const textSpan = element.querySelector('.terminal-text');
+                const text = textSpan.getAttribute('data-text');
+                let index = 0;
+                element.classList.add('visible');
+
+                function type() {
+                    if (index < text.length) {
+                        textSpan.textContent += text.charAt(index);
+                        index++;
+                        setTimeout(type, speed);
+                    } else {
+                        textSpan.classList.add('done');
+                        if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            function typeSequence(items, index, callback) {
+                if (index < items.length) {
+                    // Show card when starting its title
+                    if (index === 2) cards[0].classList.add('visible');
+                    if (index === 5) cards[1].classList.add('visible');
+                    if (index === 8) cards[2].classList.add('visible');
+
+                    typeText(items[index], function() {
+                        setTimeout(function() {
+                            typeSequence(items, index + 1, callback);
+                        }, 30);
+                    });
+                } else if (callback) {
+                    callback();
+                }
+            }
+
+            setTimeout(function() {
+                bg.classList.add('visible');
+                typeSequence(elements, 0, null);
+            }, 200);
+        });
+    </script>
+</body>
+</html>

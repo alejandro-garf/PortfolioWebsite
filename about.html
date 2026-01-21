@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>About - Gael Alejandro Fonseca</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <style>
+        .page-content {
+            background: rgba(30, 30, 30, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 50px;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+        }
+        .page-content h2 {
+            color: #bf5af2;
+            border-bottom: 1px solid #bf5af2;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .page-content p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .page-content img {
+            max-width: 50%;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            float: left;
+            margin-right: 30px;
+            margin-bottom: 20px;
+        }
+        .page-content img.visible {
+            opacity: 1;
+        }
+        .about-content {
+            overflow: hidden;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #bf5af2;
+            text-decoration: none;
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+            transition: opacity 0.2s ease;
+        }
+        .back-link:hover {
+            opacity: 0.7;
+        }
+        #bg {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #bg.visible {
+            opacity: 1;
+        }
+        .terminal-line {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .terminal-line.visible {
+            opacity: 1;
+        }
+        .terminal-text::after {
+            content: '█';
+            animation: blink 1s ease-in-out infinite;
+            color: #bf5af2;
+        }
+        .terminal-text.done::after {
+            content: '';
+            animation: none;
+        }
+        @keyframes blink {
+            0%, 40% { opacity: 1; }
+            50%, 90% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="is-preload">
+    <div id="wrapper">
+        <div class="page-content">
+            <a href="index.html" class="back-link terminal-line" id="back-link">&larr; <span class="terminal-text" data-text="Back to Terminal"></span></a>
+            <h2 class="terminal-line" id="title"><span class="terminal-text" data-text="About Me"></span></h2>
+            <div class="about-content">
+                <img src="images/IMG_1579.jpeg" alt="Gael Alejandro Fonseca" id="main-image" />
+                <p class="terminal-line" id="p1"><span class="terminal-text" data-text="First-generation background with established qualities of perseverance, grit, and determination in the face of adversity alongside indomitable optimism and an eagerness to learn."></span></p>
+                <p class="terminal-line" id="p2"><span class="terminal-text" data-text="I love nerding out about Cybersecurity and learning more in any way I can! Experience includes client facing consulting, Defensive and Offensive Contract work as well as general IT services."></span></p>
+                <p class="terminal-line" id="p3"><span class="terminal-text" data-text="Currently studying for my CCNA and building out my home lab."></span></p>
+                <p class="terminal-line" id="p4"><span class="terminal-text" data-text="Always looking for coffeechats with likeminded individuals, employment/contract opportunities or if you want to work on a project together!"></span></p>
+            </div>
+        </div>
+    </div>
+    <div id="bg"></div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bg = document.getElementById('bg');
+            const mainImage = document.getElementById('main-image');
+            const elements = [
+                document.getElementById('back-link'),
+                document.getElementById('title'),
+                document.getElementById('p1'),
+                document.getElementById('p2'),
+                document.getElementById('p3'),
+                document.getElementById('p4')
+            ];
+
+            function typeText(element, callback, speed = 8) {
+                const textSpan = element.querySelector('.terminal-text');
+                const text = textSpan.getAttribute('data-text');
+                let index = 0;
+                element.classList.add('visible');
+
+                function type() {
+                    if (index < text.length) {
+                        textSpan.textContent += text.charAt(index);
+                        index++;
+                        setTimeout(type, speed);
+                    } else {
+                        textSpan.classList.add('done');
+                        if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            function typeSequence(items, index, callback) {
+                if (index < items.length) {
+                    typeText(items[index], function() {
+                        setTimeout(function() {
+                            typeSequence(items, index + 1, callback);
+                        }, 50);
+                    });
+                } else if (callback) {
+                    callback();
+                }
+            }
+
+            setTimeout(function() {
+                bg.classList.add('visible');
+                setTimeout(function() {
+                    mainImage.classList.add('visible');
+                }, 300);
+                typeSequence(elements, 0, null);
+            }, 200);
+        });
+    </script>
+</body>
+</html>

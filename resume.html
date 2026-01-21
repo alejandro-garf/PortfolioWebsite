@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Resume - Gael Alejandro Fonseca</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <style>
+        .page-content {
+            background: rgba(30, 30, 30, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 50px;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+        }
+        .page-content h2 {
+            color: #bf5af2;
+            border-bottom: 1px solid #bf5af2;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .page-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        .page-content img.visible {
+            opacity: 1;
+        }
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .social-links.visible {
+            opacity: 1;
+        }
+        .social-links a {
+            color: #bf5af2;
+            font-size: 24px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .social-links a:hover {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #bf5af2;
+            text-decoration: none;
+            font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+            transition: opacity 0.2s ease;
+        }
+        .back-link:hover {
+            opacity: 0.7;
+        }
+        #bg {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #bg.visible {
+            opacity: 1;
+        }
+        .terminal-line {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .terminal-line.visible {
+            opacity: 1;
+        }
+        .terminal-text::after {
+            content: '█';
+            animation: blink 1s ease-in-out infinite;
+            color: #bf5af2;
+        }
+        .terminal-text.done::after {
+            content: '';
+            animation: none;
+        }
+        .loading-text {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .loading-text.visible {
+            opacity: 1;
+        }
+        @keyframes blink {
+            0%, 40% { opacity: 1; }
+            50%, 90% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="is-preload">
+    <div id="wrapper">
+        <div class="page-content">
+            <a href="index.html" class="back-link terminal-line" id="back-link">&larr; <span class="terminal-text" data-text="Back to Terminal"></span></a>
+            <h2 class="terminal-line" id="title"><span class="terminal-text" data-text="Resume"></span></h2>
+            <p class="loading-text terminal-line" id="loading"><span class="terminal-text" data-text="Loading resume..."></span></p>
+            <img src="images/GaelAlejandroFonsecaResume.jpg" alt="Resume" id="resume-image" />
+            <div class="social-links" id="social-links">
+                <a href="https://github.com/alejandro-garf" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="mailto:gaelfon1738@gmail.com"><i class="fas fa-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/gael-alejandro-fonseca/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+    <div id="bg"></div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bg = document.getElementById('bg');
+            const resumeImage = document.getElementById('resume-image');
+            const socialLinks = document.getElementById('social-links');
+            const loadingText = document.getElementById('loading');
+            const elements = [
+                document.getElementById('back-link'),
+                document.getElementById('title'),
+                document.getElementById('loading')
+            ];
+
+            function typeText(element, callback, speed = 10) {
+                const textSpan = element.querySelector('.terminal-text');
+                const text = textSpan.getAttribute('data-text');
+                let index = 0;
+                element.classList.add('visible');
+
+                function type() {
+                    if (index < text.length) {
+                        textSpan.textContent += text.charAt(index);
+                        index++;
+                        setTimeout(type, speed);
+                    } else {
+                        textSpan.classList.add('done');
+                        if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            function typeSequence(items, index, callback) {
+                if (index < items.length) {
+                    typeText(items[index], function() {
+                        setTimeout(function() {
+                            typeSequence(items, index + 1, callback);
+                        }, 30);
+                    });
+                } else if (callback) {
+                    callback();
+                }
+            }
+
+            setTimeout(function() {
+                bg.classList.add('visible');
+                typeSequence(elements, 0, function() {
+                    // After text is done, fade in the resume image
+                    setTimeout(function() {
+                        loadingText.style.display = 'none';
+                        resumeImage.classList.add('visible');
+                        setTimeout(function() {
+                            socialLinks.classList.add('visible');
+                        }, 400);
+                    }, 300);
+                });
+            }, 200);
+        });
+    </script>
+</body>
+</html>
